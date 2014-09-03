@@ -1,10 +1,25 @@
+/* Kinect Hackathon 2014
+ * 
+ * Garret Meier, Luke Geiken, Alex Rinehart 
+ * 
+ */
+
+
+package com.kinectHackathon.HappyLittleCloud;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,21 +32,23 @@ public class CloudObject extends ImageIcon{
 	private int width;
 	private int height;
 	protected double y;
-	private String fileName;
+	private InputStream fileName;
 	private BufferedImage img;
 	
-	public CloudObject(int x, int y, String fileName,int width,int height)  {
-		super(fileName);
-		this.fileName = fileName;
+	public CloudObject(int x, int y,InputStream fileName, String url, int width,int height)  {
+		super(url);
+		
 		try {
-			img = ImageIO.read(new File(this.fileName));
+			this.fileName = fileName;//.toURI()
+			img = ImageIO.read(this.fileName);
+			this.fileName.close();
 		} catch (IOException e) {
 			//e.printStackTrace();
 		}
 		
 		this.width = width;
 		this.height = height;
-		this.setImage(this.getImage().getScaledInstance(this.width, this.height, 0));
+		this.setImage(img.getScaledInstance(this.width, this.height, 0));
 		this.x = x;
 		this.y = y;
 		
@@ -58,18 +75,20 @@ public class CloudObject extends ImageIcon{
 		this.y = y;
 	}
 	
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setFileName(InputStream fileName) {
+		
 		this.setX(this.getX());
 		try {
-			this.setImage(ImageIO.read(new File(this.fileName)).getScaledInstance(this.width, this.height, 0));
+			this.fileName = fileName;
+			this.img = ImageIO.read(this.fileName);
+			this.setImage(img.getScaledInstance(this.width, this.height, 0));
 		} catch (IOException e) {
 			
 		}
 	}
 	
 	public String getFile()  {
-		return this.fileName;
+		return this.fileName.toString();
 	}
 	
 	public int getWidth() {		

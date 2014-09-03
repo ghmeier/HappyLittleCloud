@@ -1,3 +1,9 @@
+/* Kinect Hackathon 2014
+ * 
+ * Garret Meier, Luke Geiken, Alex Rinehart 
+ * 
+ */
+package com.kinectHackathon.HappyLittleCloud;
 	import java.awt.BorderLayout;
 	import java.awt.Color;
 	import java.awt.Dimension;

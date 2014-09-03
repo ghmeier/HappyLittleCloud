@@ -1,3 +1,9 @@
+/* Kinect Hackathon 2014
+ * 
+ * Garret Meier, Luke Geiken, Alex Rinehart 
+ * 
+ */
+package com.kinectHackathon.HappyLittleCloud;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -38,11 +44,11 @@ public class GamePane extends JPanel implements KeyListener {
 		public static final int WIDTH = 800;
 		public static final int HEIGHT = 600;
         private BufferedImage img;
-      	public static Player co = new Player(-100,330,"src/img/spence.png",70,70,4);
-      	public static CloudObject backGround = new CloudObject(0,0,"src/img/cloudBack.png",WIDTH,HEIGHT);
-      	public static CloudObject burnedVillage = new CloudObject(-200,470,"src/img/burned_village.png",200,100);
-      	public static ArrayList<WaterDrop> drops = new ArrayList<WaterDrop>();
-      	public static GamePane pane = new GamePane();
+        public static GamePane pane = new GamePane();
+      	public static Player co = new Player(-100,330,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/spence.png"),"spence.png",70,70,4);
+      	public static CloudObject backGround = new CloudObject(0,0,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/cloudBack.png"),"cloudback.png",WIDTH,HEIGHT);
+      	public static CloudObject burnedVillage = new CloudObject(-200,470,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/burned_village.png"),"burned_village.png",200,100);
+      	public static ArrayList<WaterDrop> drops = new ArrayList<WaterDrop>();     	
       	public static int timeLength=300000;
       	public static long curTime;
       	public static long timeOut;
@@ -51,6 +57,7 @@ public class GamePane extends JPanel implements KeyListener {
       	public boolean cinematic = false;
         
         public static void main(String[] args) {
+
         	GamePane game = new GamePane();
         	Random r= new Random();
             JFrame frame = new JFrame("Happy Little Cloud");           
@@ -76,9 +83,9 @@ public class GamePane extends JPanel implements KeyListener {
             		
             		oldTime = curTime;
             		if (co.getCharacterType()>=2) {
-            			drops.add(new WaterDrop(r.nextInt(750),"src/img/basiccloud.png"));
+            			drops.add(new WaterDrop(r.nextInt(750),pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/basiccloud.png"),"basiccloud.png"));
             		}else {
-            			drops.add(new WaterDrop(r.nextInt(750),"src/img/raindrop.png"));
+            			drops.add(new WaterDrop(r.nextInt(750),pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/raindrop.png"),"raindrop.png"));
             		}
             	}
             	
@@ -96,7 +103,7 @@ public class GamePane extends JPanel implements KeyListener {
         			   oldTime=curTime;
 	        		   co.endMove();
 	        		   if (r.nextInt()>8 && co.getY()>-co.getHeight()){
-	        			   drops.add(new WaterDrop(co.getX()+r.nextInt(co.getWidth()),co.getY()+co.getHeight(),"src/img/raindrop.png",10,10,1.7));
+	        			   drops.add(new WaterDrop(co.getX()+r.nextInt(co.getWidth()),co.getY()+co.getHeight(),pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/raindrop.png"),"raindrop.png",10,10,1.7));
 	        		   }
 	        		   pane.repaint();
         		   }
@@ -105,7 +112,7 @@ public class GamePane extends JPanel implements KeyListener {
         	   pane.endScene();
            }else {
         	   System.out.println("You lost");
-        	   CloudObject youWon = new CloudObject(0,0,"src/img/losing_game.png",800,600);	   
+        	   CloudObject youWon = new CloudObject(0,0,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/losing_game.png"),"losing_game.png",800,600);	   
         	   youWon.paintIcon(pane, pane.getGraphics(), youWon.getX(), (int)youWon.getY());
            }
            
@@ -121,7 +128,7 @@ public class GamePane extends JPanel implements KeyListener {
 			   oldTime=curTime;
     		   
     		   if (r.nextInt()>8 && co.getY()>-co.getHeight()){
-    			   drops.add(new WaterDrop(co.getX()+r.nextInt(co.getWidth()),co.getY()+co.getHeight(),"src/img/raindrop.png",10,10,1.7));
+    			   drops.add(new WaterDrop(co.getX()+r.nextInt(co.getWidth()),co.getY()+co.getHeight(),pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/raindrop.png"),"raindrop.png",10,10,1.7));
     		   }
     		   //pane.repaint();
 		   }
@@ -205,8 +212,8 @@ public class GamePane extends JPanel implements KeyListener {
      	   boolean newVillage = false; 
      	   Image off = createImage(WIDTH,HEIGHT);    
            Graphics second = off.getGraphics();
-           CloudObject text1 = new CloudObject(100,10,"src/img/spence_end.png",280,171);
-           CloudObject text2 = new CloudObject(100,310,"src/img/village_end.png",280,171);
+           CloudObject text1 = new CloudObject(100,10,pane.getClass().getResourceAsStream("spence_end.png"),"spence_end.png",280,171);
+           CloudObject text2 = new CloudObject(100,310,pane.getClass().getResourceAsStream("village_end.png"),"village_end.png",280,171);
      	   while(curTime<timeOut+13000) {
      		   curTime = System.currentTimeMillis();
 				backGround.paintIcon(pane, second, backGround.getX(), (int)backGround.getY());
@@ -222,7 +229,7 @@ public class GamePane extends JPanel implements KeyListener {
 	        		}
 				}
      		   if ( newVillage == false && curTime>timeOut+ 3000 ) {
-     			   burnedVillage.setFileName("src/img/saved_village.png");
+     			   burnedVillage.setFileName(pane.getClass().getResourceAsStream("saved_village.png"));
      			   newVillage = true;
      		   }
      		   if (curTime>timeOut+3000 && curTime<timeOut+8000) {
@@ -234,7 +241,7 @@ public class GamePane extends JPanel implements KeyListener {
      		   pane.rain();
      		  pane.getGraphics().drawImage(off, 0,0,pane);
      	   }
-     	   CloudObject youWon = new CloudObject(0,0,"src/img/you_won.png",800,600);	   
+     	   CloudObject youWon = new CloudObject(0,0,pane.getClass().getResourceAsStream("you_won.png"),"you_won.png",800,600);	   
      	   youWon.paintIcon(pane, pane.getGraphics(), youWon.getX(), (int)youWon.getY());
 			
 		}
@@ -242,20 +249,21 @@ public class GamePane extends JPanel implements KeyListener {
 		public void openScene() {
             Image off = createImage(WIDTH,HEIGHT);           
             Graphics second = off.getGraphics();
-			while (curTime<timeOut+10000) {
-				backGround.setFileName("src/img/splashpage.png");
+			while (curTime<timeOut+1000) {
+				backGround.setFileName(pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/splashpage.png"));
 				backGround.paintIcon(pane, second, backGround.getX(), (int)backGround.getY());
 				curTime = System.currentTimeMillis();
 				this.getGraphics().drawImage(off, 0,0,this);
 			}
-			backGround.setFileName("src/img/cloudBack.png");
+			backGround.setFileName(pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/cloudBack.png"));
 			burnedVillage.setX(200);
 			co.setX(370);
 			co.setY(470);
-			CloudObject text1 = new CloudObject(10,200,"src/img/beginning_text.png",280,171);
-			CloudObject text2 = new CloudObject(270,300,"src/img/spence_text.png",280,171);
-			CloudObject text3 = new CloudObject(270,300,"src/img/spence_text2.png",280,171);
-			CloudObject text4 = new CloudObject(300,200,"src/img/spence_text3.png",280,171);
+			CloudObject text1 = new CloudObject(10,200,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/beginning_text.png"),"beginning_text.png",280,171);
+			//text1.setFileName(pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/beginning_text.png"));
+			CloudObject text2 = new CloudObject(270,300,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/spence_text.png"),"spence_text.png",280,171);
+			CloudObject text3 = new CloudObject(270,300,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/spence_text2.png"),"spence_text2.png",280,171);
+			CloudObject text4 = new CloudObject(300,200,pane.getClass().getResourceAsStream("/com/kinectHackathon/HappyLittleCloud/spence_text3.png"),"spence_text3.png",280,171);
 			off = createImage(WIDTH,HEIGHT);
 			second = off.getGraphics();
 			timeOut = curTime;

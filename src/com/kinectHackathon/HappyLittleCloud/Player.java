@@ -1,3 +1,11 @@
+/* Kinect Hackathon 2014
+ * 
+ * Garret Meier, Luke Geiken, Alex Rinehart 
+ * 
+ */
+package com.kinectHackathon.HappyLittleCloud;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Player extends CloudObject {
@@ -39,19 +47,19 @@ public class Player extends CloudObject {
 	 * The Player constructor 
 	 * @param levelUpInt the int needed to "level up"
 	 */
-	public Player(int x, int y, String fileName, int width,int height, int levelUpInt) {
-		super(x,y,fileName,width,height);
+	public Player(int x, int y, InputStream fileName, String url, int width,int height, int levelUpInt) {
+		super(x,y,fileName,url,width,height);
 		score = 0;
 		numTributaries = 0;
 		multiplier = 1;		
 		characterType = 0;
 		this.levelUpInt = levelUpInt;
 		characterModel = new ArrayList<String>(5);
-		characterModel.add("src/img/spermy.png");
-		characterModel.add("src/img/waterblob.png");
-		characterModel.add("src/img/misty.png");
-		characterModel.add("src/img/cloud.png");
-		characterModel.add("src/img/raincloud.png");
+		characterModel.add("spermy.png");
+		characterModel.add("waterblob.png");
+		characterModel.add("misty.png");
+		characterModel.add("cloud.png");
+		characterModel.add("raincloud.png");
 	}
 	
 	/**
@@ -99,7 +107,7 @@ public class Player extends CloudObject {
 			characterType++;
 			this.setWidth(this.getWidth()+20);
 			this.setHeight(this.getHeight()+20);
-			this.setFileName(getCharacter());
+			this.setFileName(this.getClass().getResourceAsStream(getCharacter()));
 
 		}
 	}
